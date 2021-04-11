@@ -9,7 +9,8 @@ class BiensController < ApplicationController
   def index
     @markers = create_map_markers(@biens)
     # @sum_depenses = current_user.sum_depenses_biens
-    puts "hey you"
+    puts "hey you"  
+      
 
     @cfbiens = @biens.map(&:cash_flow_bien_to_date)
     @cfbiens_months = current_user.cash_flow_biens.reverse
