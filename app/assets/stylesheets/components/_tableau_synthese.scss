@@ -1,42 +1,45 @@
 
 // table style
 
-.tableau-synthese	{
+.tableau-synthese {
   border-spacing: 1;
   border-collapse: collapse;
-  background:white;
-  border-radius:8px;
-  overflow:hidden;
-
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
   min-width: 500px;
-  width:100%;
-  margin:0 auto;
-  position:relative;
-  font-size: 14px;;
-	// text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  font-size: 14px;
+  // text-align: center;
 
+  * { position: relative; }
 
-  *               { position:relative }
+  td,
+  th { padding-left: 8px; }
 
-  td,th           { padding-left:8px}
-
-  thead tr        {
-    height:60px;
-    background:#152F70;
-    color:white;
-    font-size:16px;
+  thead tr {
+    height: 60px;
+    background: #152f70;
+    color: white;
+    font-size: 16px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
     font-weight: normal;
   }
 
-  tbody tr        { height:30px; border-bottom:1px solid rgb(233, 233, 233) ;
-    &:last-child  { border:0; }
+  tbody tr {
+    height: 30px;
+    border-bottom: 1px solid rgb(233, 233, 233);
+    &:last-child { border: 0; }
   }
 
- 	td,th 					{ text-align:left;
-		&.l 					{ text-align:right }
-		&.c 					{ text-align:center }
-		&.r 					{ text-align:center }
-	}
+  td,
+  th {
+    text-align: left;
+    &.l { text-align: right; }
+    &.c { text-align: center; }
+    &.r { text-align: center; }
+  }
 }

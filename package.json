@@ -13,10 +13,12 @@
     "jquery": "^3.6.0",
     "mapbox-gl": "^2.1.1",
     "popper.js": "^1.16.1",
+    "stylelint": "^13.12.0",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {
+    "stylelint-config-standard": "^21.0.0",
     "webpack-dev-server": "^3.11.2"
   }
 }
