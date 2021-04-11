@@ -11,15 +11,15 @@ class BiensController < ApplicationController
     puts @markers
     # @sum_depenses = current_user.sum_depenses_biens
 
-    @cfbiens = @biens.map { |bien| bien.cash_flow_bien_to_date }
+    @cfbiens = @biens.map(&:cash_flow_bien_to_date)
     @cfbiens_months = current_user.cash_flow_biens.reverse
 
     cash_flow_courbe_biens
 
     @months_display = (0..11).map { |i| (Date.today - i.month).end_of_month.strftime('%b %y') }.reverse
-    @apartments_display = current_user.biens.map { |bien| bien.nom }
+    @apartments_display = current_user.biens.map(&:nom)
 
-    @apartments_id = current_user.biens.map { |bien| bien.id }
+    @apartments_id = current_user.biens.map(&:id)
 
     # KPIS
     @total_cash_flow = total_cash_flow
@@ -30,9 +30,8 @@ class BiensController < ApplicationController
     ## MERGE tableaux transactions ##
     @lasts_transactions = (@bien.loyers.where('date_paiement < ?',
                                               DateTime.now).order(date_paiement: :desc).limit(10).to_a + @bien.depenses.where('date_paiement < ?',
-                                                                                                                              DateTime.now).order(date_paiement: :desc).limit(10).to_a).map do |transaction|
-      transaction.attributes
-    end
+                                                                                                                              DateTime.now).order(date_paiement: :desc).limit(10).to_a).map(&:attributes)
+
     @lasts_transactions.sort_by! { |t| t['date_paiement'] }.reverse!
     @depenses = @bien.sum_depenses
 
@@ -41,7 +40,7 @@ class BiensController < ApplicationController
     @months_display = (0..11).map { |i| (Date.today - i.month).end_of_month.strftime('%b %y') }.reverse
 
     @cash_flow_courbe_bien = @cash_flow_bien_month.each_with_index.map do |n, index|
-      if index == 0
+      if index.zero?
         n
       else
         @cash_flow_bien_month[0..index].sum
@@ -127,7 +126,7 @@ class BiensController < ApplicationController
   end
 
   def sum_cashflow_courbe
-    b = @cfbiens_months.each with_index.map do |n, index|
+    @cfbiens_months.each with_index.map do |n, index|
       if index.zero?
         n
       else tab[0..index].sum
@@ -221,7 +220,7 @@ class BiensController < ApplicationController
   end
 
   def total_cash_flow
-    @biens.map { |bien| bien.cash_flow_bien_to_date }.sum
+    @biens.map(&:cash_flow_bien_to_date).sum
   end
 
   def rentability_ytd_all_biens
