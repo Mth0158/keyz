@@ -9,8 +9,7 @@ class BiensController < ApplicationController
   def index
     @markers = create_map_markers(@biens)
     # @sum_depenses = current_user.sum_depenses_biens
-    puts "hey you"  
-      
+    puts "hey you"
 
     @cfbiens = @biens.map(&:cash_flow_bien_to_date)
     @cfbiens_months = current_user.cash_flow_biens.reverse
@@ -31,9 +30,7 @@ class BiensController < ApplicationController
     ## MERGE tableaux transactions ##
     @lasts_transactions = (@bien.loyers.where('date_paiement < ?',
                                               DateTime.now).order(date_paiement: :desc).limit(10).to_a + @bien.depenses.where('date_paiement < ?',
-                                                                                                                              DateTime.now).order(date_paiement: :desc).limit(10).to_a).map do |transaction|
-      transaction.attributes
-    end
+                                                                                                                              DateTime.now).order(date_paiement: :desc).limit(10).to_a).map(&:attributes)
     @lasts_transactions.sort_by! { |t| t['date_paiement'] }.reverse!
     @depenses = @bien.sum_depenses
 
@@ -42,7 +39,7 @@ class BiensController < ApplicationController
     @months_display = (0..11).map { |i| (Date.today - i.month).end_of_month.strftime('%b %y') }.reverse
 
     @cash_flow_courbe_bien = @cash_flow_bien_month.each_with_index.map do |n, index|
-      if index == 0
+      if index.zero?
         n
       else
         @cash_flow_bien_month[0..index].sum
